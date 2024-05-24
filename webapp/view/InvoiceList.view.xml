@@ -1,0 +1,97 @@
+<mvc:View
+	controllerName="sap.btp.helloworldui5.controller.InvoiceList"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	
+	<Panel id="mainPanel" accessibleRole="Region">
+		<headerToolbar>
+			<Toolbar id="t1">
+				<Title id="title" text="{i18n>invoiceListTitle}"/>
+				<ToolbarSpacer id="ts"/>
+				<SearchField id="sf"
+					width="50%"
+					search=".onFilterInvoices"/>
+			</Toolbar>
+		</headerToolbar>
+		<Table id="invoiceTable" 
+			class="sapUiResponsiveMargin" width="auto"
+			inset="false" items="{
+				path : 'invoice>/Invoices',
+				sorter : {
+					path : '{invoice>ShipperName}',
+					group : true
+				}
+			}">
+			<headerToolbar>
+				<OverflowToolbar id="toolbar">
+					<Title text="{i18n>invoiceListTitle}" id="t2"/>
+					<ToolbarSpacer id="t3"/>
+					<SearchField id="s2"
+						width="50%"
+						search=".onFilterInvoices"/>
+				</OverflowToolbar>
+			</headerToolbar>
+			<columns>
+				<Column id="c1"
+					hAlign="End"
+					minScreenWidth="Small"
+					demandPopin="true"
+					width="5em">
+					<Text text="{i18n>columnQuantity}" id="t4"/>
+				</Column>
+				<Column id="c2">
+					<Text text="{i18n>columnName}" id="t10"/>
+				</Column>
+				<Column id="c3"
+					minScreenWidth="Small"
+					demandPopin="true">
+					<Text text="{i18n>columnStatus}" id="t9" />
+				</Column>
+				<Column id="c4"
+					minScreenWidth="Tablet"
+					demandPopin="false">
+					<Text text="{i18n>columnSupplier}" id="t7"/>
+				</Column>
+				<Column id="c5" hAlign="End">
+					<Text text="{i18n>columnPrice}" id="t8"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem id="cl1"
+					type="Navigation"
+					press=".onPress">
+					<cells>
+						<ObjectNumber id="o"
+							number="{invoice>Quantity}"
+							emphasized="false"/>
+						<ObjectIdentifier id="o2" title="{invoice>ProductName}" />
+						<Text id="t5"
+							text="{
+									parts: [
+										'invoice>Status',
+										'i18n>invoiceStatusA',
+										'i18n>invoiceStatusB',
+										'i18n>invoiceStatusC'
+									],
+									formatter: 'sap.btp.helloworldui5.model.formatter.statusText'
+								}"/>
+						<Text id="t6" text="{invoice>ShipperName}" />
+						<ObjectNumber id="o3"
+							number="{
+									parts: [
+										'invoice>ExtendedPrice',
+										'view>/currency'
+									],
+									type: 'sap.ui.model.type.Currency',
+									formatOptions: {
+										showMeasure: false
+									}
+								}"
+							unit="{view>/currency}"
+							state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Panel>
+</mvc:View>

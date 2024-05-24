@@ -1,0 +1,21 @@
+<mvc:View
+    controllerName="sap.btp.helloworldui5.controller.App"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true">
+    <Page title="{i18n>homePageTitle}" id="Overview">
+        <landmarkInfo>
+			<PageAccessibleLandmarkInfo id="acc"
+				rootRole="Region"
+				rootLabel="{i18n>Overview_rootLabel}"
+				contentRole="Main"
+				contentLabel="{i18n>Overview_contentLabel}"
+				headerRole="Banner"
+				headerLabel="{i18n>Overview_headerLabel}"/>
+		</landmarkInfo>
+        <content>
+            <mvc:XMLView id="view" viewName="sap.btp.helloworldui5.view.HelloPanel" />
+            <mvc:XMLView id="view2" viewName="sap.btp.helloworldui5.view.InvoiceList" />
+        </content>
+    </Page>
+</mvc:View>

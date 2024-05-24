@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="sap.btp.helloworldui5.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Shell id="Shell">
+		<App id="app" class="myAppDemoWT">
+		</App>
+	</Shell>
+</mvc:View>

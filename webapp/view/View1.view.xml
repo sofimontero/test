@@ -1,0 +1,103 @@
+<mvc:View controllerName="sap.btp.helloworldui5.controller.View1"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tnt="sap.tnt"
+	displayBlock="true"
+	xmlns="sap.m">
+	<Page id="page" title="{i18n>title}" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+			<f:ShellBar
+				id="sapFShellBarSample" title="Application Title" secondTitle="Short description" homeIcon="./resources/sap/ui/documentation/sdk/images/logo_sap.png"
+				showSearch="true" showMenuButton="true"  showNotifications="true" class="sapFShellBarFCLFPHeader"
+				notificationsNumber="2" menuButtonPressed=".onCollapseExpandPress" homeIconPressed=".handleHomeIconPress" >
+				<f:profile>
+					<Avatar initials="UI" id="Avatar"/>
+				</f:profile>
+			</f:ShellBar>
+			<FlexBox id="1">
+				<VBox renderType="Bare" alignItems="Start" id="VBox2">
+					<tnt:SideNavigation id="sideNavigation">
+						<tnt:NavigationList id="sideNavigationList1">
+							<tnt:NavigationListItem text="Home" icon="sap-icon://home" id="sideNavigationItem" selectable="false" href="https://port8080-workspaces-ws-dbtjh.us10.applicationstudio.cloud.sap/index.html#"/>
+							<tnt:NavigationListGroup text="New" id="sideNavigationGroup1">
+								<tnt:NavigationListItem text="People" icon="sap-icon://people-connected" id="sideNavigationItem1.1"/>
+								<tnt:NavigationListItem text="Building" icon="sap-icon://building" id="sideNavigationItem1.2"/>
+								<tnt:NavigationListItem text="Mileage" icon="sap-icon://mileage" id="sideNavigationItem1.3">
+									<tnt:NavigationListItem text="Driven" id="sideNavigationItem1.4"/>
+									<tnt:NavigationListItem text="Walked" id="sideNavigationItem1.5" />
+								</tnt:NavigationListItem>
+							</tnt:NavigationListGroup>
+							<tnt:NavigationListGroup text="Recently used" id="sideNavigationGroup2">
+								<tnt:NavigationListItem text="Managing My Area" icon="sap-icon://kpi-managing-my-area" id="sideNavigationItem2.1"/>
+								<tnt:NavigationListItem text="Flight" icon="sap-icon://flight" id="sideNavigationItem2.2"/>
+								<tnt:NavigationListItem text="Map" icon="sap-icon://map-2" id="sideNavigationItem2.3"/>
+							</tnt:NavigationListGroup>
+							<tnt:NavigationListGroup text="Restricted" enabled="false" id="sideNavigationGroup3">
+								<tnt:NavigationListItem text="Running" icon="sap-icon://physical-activity" id="sideNavigationItem3.1"/>
+								<tnt:NavigationListItem text="Scissors" icon="sap-icon://scissors" id="sideNavigationItem3.2"/>
+							</tnt:NavigationListGroup>
+							<tnt:NavigationListItem text="Transport" icon="sap-icon://passenger-train" id="sideNavigationItem2"/>
+						</tnt:NavigationList>
+						<tnt:fixedItem>
+							<tnt:NavigationList id="sideNavigationList4">
+								<tnt:NavigationListItem text="Bar Chart" icon="sap-icon://bar-chart" id="sideNavigationItem4.1"/>
+								<tnt:NavigationListItem id="sideNavigationItem4.2" selectable="false" href="https://sap.com" target="_blank" text="External Link" icon="sap-icon://attachment" />
+							</tnt:NavigationList>
+						</tnt:fixedItem>
+					</tnt:SideNavigation>
+				</VBox>
+				<VBox id="VBox3" width="100%">
+					<IconTabBar class="sapUiResponsiveContentPadding" id="IconTab" expanded="{device>/isNoPhone}" headerMode="Inline">
+						<items>
+							<IconTabFilter key="info" text="Info" id="InfoTabFilter">
+								<Text id="t4" text="Info content goes here ..." />
+							</IconTabFilter>
+							<IconTabFilter key="attachments" text="Attachments" count="3" id="AttachmentsTabFilter">
+								<Text id="t3" text="Attachments content goes here ..." />
+							</IconTabFilter>
+							<IconTabFilter key="notes" text="Notes" count="12" id="NotesTabFilter">
+								<Text id="t2" text="Notes content goes here ..." />
+							</IconTabFilter>
+							<IconTabFilter key="people" text="People" id="PeopleTabFilter">
+								<Text id="t" text="People content goes here ..." />
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+					<Panel headerText="Middle right" id="Panel1">
+						<FlexBox id= "Flexbox1" alignItems="Center" justifyContent="End" height="150px">
+							<Button text="1" type="Emphasized" class="sapUiSmallMarginEnd" id= "Button1"/>
+							<Button text="2" type="Reject" class="sapUiSmallMarginEnd" id= "Button2" press=".onNav"/>
+							<Button text="3" type="Accept" id= "Button3"/>
+						</FlexBox>
+					</Panel>
+					<Panel headerText="Lower left" id="Panel">
+						<FlexBox direction="Row" alignItems="End" class="sapUiTinyMarginBottom" id="Flexbox0" justifyContent="Start" height="200px">
+							<Label text="Accept the button" class="sapUiTinyMarginEnd" id="label_button"/>
+							<Button id= "Button0" text="Click the button" press=".onPress"/>
+						</FlexBox>
+					</Panel>
+					<Panel id="Panel2" headerText="Menu button with menuPosition set to Begin Bottom">
+						<MenuButton text="Calculator" buttonMode="Split" useDefaultActionOnly="true" id="MenuButton">
+							<menu>
+								<Menu itemSelected="onMenuAction" id="Menu">
+									<MenuItem text="basic" icon="sap-icon://chalkboard" id="Item1">
+										<items>
+											<MenuItem text="add" icon="sap-icon://add" id="SubItem1.1"/>
+											<MenuItem text="subtract" icon="sap-icon://less" id="SubItem1.2"/>
+											<MenuItem text="multiply" icon="sap-icon://decline" id="SubItem1.3"/>
+										</items>
+									</MenuItem>
+									<MenuItem text="complex" icon="sap-icon://display" id="Item2">
+										<items>
+											<MenuItem text="square" icon="sap-icon://status-completed" id="SubItem2.1"/>
+										</items>		
+									</MenuItem>
+								</Menu>
+							</menu>
+						</MenuButton>
+					</Panel>
+				</VBox>
+			</FlexBox>
+        </content>
+    </Page>
+</mvc:View>

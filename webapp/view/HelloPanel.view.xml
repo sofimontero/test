@@ -1,0 +1,33 @@
+<mvc:View
+   controllerName="sap.btp.helloworldui5.controller.HelloPanel"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc">
+   
+   <Panel id="Panel" headerText="{i18n>helloPanelTitle}"
+      class="sapUiResponsiveMargin" width="auto"
+      accessibleRole="Region">
+      <content>
+         <Button
+         id="helloDialogButton"
+         icon="sap-icon://world"
+         text="{i18n>openDialogButtonText}"
+         press=".onOpenDialog"
+         class="sapUiSmallMarginEnd sapUiVisibleOnlyOnDesktop"/>
+         <Button id="Button"
+            text="{i18n>showHelloButtonText}"
+            press=".onShowHello"
+            class="sapUiSmallMarginBottom"/>
+         <Button id="ButtonNav"
+            text="View"
+            press=".onNav"
+            class="myCustomButton"/>
+         <Input id="Input"
+            value="{/recipient/name}"
+            valueLiveUpdate="true"
+            width="60%"/>
+         <FormattedText id="FormattedText"
+            htmlText="Hello {/recipient/name}"
+            class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText"/>
+      </content>
+   </Panel>
+</mvc:View>
