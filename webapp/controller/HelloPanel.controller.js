@@ -1,8 +1,7 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast",
-    "sap/m/MessageBox"
- ], (Controller, MessageToast, MessageBox) => {
+    "sap/m/MessageToast"
+ ], (Controller, MessageToast) => {
     "use strict";
  
     return Controller.extend("sap.btp.helloworldui5.controller.HelloPanel", {
