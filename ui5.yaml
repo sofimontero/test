@@ -26,3 +26,8 @@ server:
       configuration:
         component: sap.btp.helloworldui5
         ui5Theme: sap_horizon
+    - name: ui5-middleware-simpleproxy
+      afterMiddleware: compression
+      mountPath: /V2
+      configuration:
+        baseUri: "https://services.odata.org"

@@ -24,7 +24,7 @@
          <Input id="Input"
             value="{/recipient/name}"
             valueLiveUpdate="true"
-            width="60%"/>
+            width="70%"/>
          <FormattedText id="FormattedText"
             htmlText="Hello {/recipient/name}"
             class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText"/>

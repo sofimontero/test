@@ -67,7 +67,7 @@
 						<FlexBox id= "Flexbox1" alignItems="Center" justifyContent="End" height="150px">
 							<Button text="1" type="Emphasized" class="sapUiSmallMarginEnd" id= "Button1"/>
 							<Button text="2" type="Reject" class="sapUiSmallMarginEnd" id= "Button2" press=".onNav"/>
-							<Button text="3" type="Accept" id= "Button3"/>
+							<Button text="3" type="Accept" id= "Button3" press=".onTestNav"/>
 						</FlexBox>
 					</Panel>
 					<Panel headerText="Lower left" id="Panel">

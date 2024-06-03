@@ -41,6 +41,10 @@ sap.ui.define([ "sap/ui/core/mvc/Controller",
             onNav() {
                 const oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("form");
+            },
+            onTestNav() {
+                const oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("test");
             }
         });
     });

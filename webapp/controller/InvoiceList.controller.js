@@ -32,10 +32,11 @@ sap.ui.define([
 		},
 
 		onPress(oEvent) {
-			const oItem = oEvent.getSource();
+			const oItem = oEvent.getSource(); //returns Object List Item
 			const oRouter = this.getOwnerComponent().getRouter();
 			oRouter.navTo("detail", {
-				invoicePath: window.encodeURIComponent(oItem.getBindingContext("invoice").getPath().substr(1))
+				invoicePath: window.encodeURIComponent(oItem.getBindingContext("invoice").getPath().substr(1)) //substr removes /
+				//the binding path might contain special characters which are not allowed in URLs, so we have to encode the path
 			});
 		}
 	});

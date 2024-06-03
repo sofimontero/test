@@ -6,14 +6,15 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("sap.btp.helloworldui5.controller.Detail", {
-		onInit() {
+		onInit() { 
 			const oViewModel = new JSONModel({
 				currency: "EUR"
 			});
 			this.getView().setModel(oViewModel, "view");
-
+			// It needs to set the context that we passed in with the URL parameter invoicePath on the view,
+			//so that the item that has been selected in the list of invoices is actually displayed
 			const oRouter = this.getOwnerComponent().getRouter();
-			oRouter.getRoute("detail").attachPatternMatched(this.onObjectMatched, this);
+			oRouter.getRoute("detail").attachPatternMatched(this.onObjectMatched, this);//we fetch the instance of our app router and attach to the detail route
 		},
 
 		onObjectMatched(oEvent) {

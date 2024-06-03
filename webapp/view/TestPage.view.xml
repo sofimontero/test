@@ -1,0 +1,379 @@
+<mvc:View
+   controllerName="sap.btp.helloworldui5.controller.TestPage"
+   xmlns="sap.m" xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:layout="sap.ui.layout"
+   xmlns:mvc="sap.ui.core.mvc">
+    <NavContainer id="navContainer">
+        <pages>
+            <f:DynamicPage
+                id="dynamicPage"
+                toggleHeaderOnTitleClick="{/titleClickable}"
+                stickySubheaderProvider="ShoppingCartWizard"
+                class="sapUiNoContentPadding"
+                showFooter="true">
+                <!-- DynamicPage Title -->
+                <f:title>
+                    <f:DynamicPageTitle id="DynamicPageTitle">
+                        <f:heading>
+                            <Title text="Shopping List" id="Title"/>
+                        </f:heading>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <!-- DynamicPage Header -->
+                <f:content>
+                    <Wizard id="ShoppingCartWizard"
+                            class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                            complete="completedHandler"
+                            height="auto"
+                            enableBranching="true">
+                        <WizardStep
+                            id="ContentsStep"
+                            nextStep="PaymentTypeStep"
+                            title="Shopping cart contents"
+                            icon="sap-icon://cart">
+                            <ObjectHeader id="objectHeader"
+                                title="Total"
+                                number="{/ProductsTotalPrice}"
+                                numberUnit="EUR">
+                                <attributes>
+                                    <ObjectAttribute id="objectAttribute" text="This is the list of items in your shopping cart"/>
+                                </attributes>
+                            </ObjectHeader>
+                            <List   id ="list" mode="Delete"
+                                    items="{products2>/ProductCollection}"
+                                    enableBusyIndicator="true"
+                                    delete="handleDelete"
+                                    headerText="Items">
+                                <StandardListItem id="standardListItem"
+                                    title="{products2>Name}"
+                                    type="Active"
+                                    description="{products2>Description}"
+                                    icon="{products2>ProductPicUrl}"
+                                    info="{products2>Price} {products2>CurrencyCode}"
+                                    iconDensityAware="false"
+                                    iconInset="false"/>
+                            </List>
+                        </WizardStep>
+                        <WizardStep
+                            id="PaymentTypeStep"
+                            title="Payment type"
+                            subsequentSteps="CreditCardStep, BankAccountStep, CashOnDeliveryStep"
+                            complete="goToPaymentStep"
+                            icon="sap-icon://money-bills">
+                            <Text id="text_creditCards" 
+                                class="sapUiSmallMarginBottom"
+                                text="We accept all major credit cards. No extra cost will be charged when paying with a credit card. Bank transfer and Cash on delivery are only possible for inland deliveries. A service charge of 2.99 EUR will be charged for these types of deliveries. Be aware, that for Bank transfers, the shipping will start on the day after the payment is received."/>
+                            <HBox id="HBox"
+                                alignItems="Center"
+                                justifyContent="Center"
+                                width="100%">
+                                <SegmentedButton selectionChange="setPaymentMethod" id="paymentMethodSelection"
+                                                    selectedKey="{/selectedPayment}">
+                                    <items>
+                                        <SegmentedButtonItem id="CreditCard" key="Credit Card" icon="sap-icon://credit-card"
+                                                                text="Credit card"/>
+                                        <SegmentedButtonItem id="BankTransfer" key="Bank Transfer" icon="sap-icon://official-service"
+                                                                text="Bank transfer"/>
+                                        <SegmentedButtonItem id="Cash" key="Cash on Delivery" icon="sap-icon://money-bills"
+                                                                text="Cash on delivery"/>
+                                    </items>
+                                </SegmentedButton>
+                            </HBox>
+                        </WizardStep>
+                        <WizardStep
+                            id="CreditCardStep"
+                            title="Credit card info"
+                            nextStep="BillingStep"
+                            activate="checkCreditCardStep"
+                            icon="sap-icon://credit-card">
+                            <MessageStrip id="MessageStrip" text="Enter at least 3 symbols for credit card name."/>
+                            <form:SimpleForm id="simpleForm"
+                                editable="true"
+                                layout="ColumnLayout">
+                                <Label id="labelCardName" text="Name on card" required="true"/>
+                                <Input id="input" enabled="true" value="{/CreditCard/Name}" liveChange="checkCreditCardStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelCardNumber" text="Card number"/>
+                                <Input id="inputCardNumber" value="{/CardNumber}"/>
+                                <Label id="labelSecurityCode" text="Security code"/>
+                                <Input id="inputSecurityCode" value="{/CreditCard/SecurityCode}"/>
+                                <Label id="labelExpirationDate" text="Expiration date"/>
+                                <DatePicker id="DatePicker" value="{/CreditCard/Expire}"/>
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="BankAccountStep"
+                            title="Beneficial bank info"
+                            nextStep="BillingStep"
+                            icon="sap-icon://official-service">
+                            <Panel id="panel">
+                                <headerToolbar>
+                                    <Toolbar id="toolbar" height="0rem">
+                                        <Title id="title" text=""/>
+                                    </Toolbar>
+                                </headerToolbar>
+                                <layout:Grid id="layout"
+                                    defaultSpan="L6 M6 S10"
+                                    hSpacing="2">
+                                    <Label id="labelBeneficiaryName" text="Beneficiary Name" design="Bold"/>
+                                    <Label id="labelNameEx" text="Singapore Hardware e-Commerce LTD"/>
+                                    <Label id="labelBeneficiaryBank" text="Beneficiary Bank" design="Bold"/>
+                                    <Label id="labelBeneficiaryBankEx" text="CITY BANK, SINGAPORE BRANCH"/>
+                                    <Label id="labelBeneficiaryAccountNumber" text="Beneficiary Account Number" design="Bold"/>
+                                    <Label id="labelBeneficiaryAccountNumberEx" text="06110702027218"/>
+                                    <Label id="labelBankPhoneNumber" text="Bank Phone Number" design="Bold"/>
+                                    <Label id="labelBankPhoneNumberEx" text="+65-6224-2622"/>
+                                    <Label id="labelBankEmailAddress" text="Bank Email Address" design="Bold"/>
+                                    <Label id="labelBankEmailAddressEx" text="customerservice@citybank.com"/>
+                                </layout:Grid>
+                            </Panel>
+                        </WizardStep>
+                        <WizardStep
+                            id="CashOnDeliveryStep"
+                            title="Cash on delivery info"
+                            nextStep="BillingStep"
+                            activate="checkCashOnDeliveryStep"
+                            icon="sap-icon://money-bills">
+                            <MessageStrip id="MessageStripName" text="Enter at least 3 symbols for first name."/>
+                            <form:SimpleForm id="SimpleFormCash"
+                                editable="true"
+                                layout="ColumnLayout">
+                                <Label id="labelFirstName" text="First Name" required="true"/>
+                                <Input id="inputFirstName" value="{/CashOnDelivery/FirstName}" liveChange="checkCashOnDeliveryStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelLastName" text="Last Name"/>
+                                <Input id="inputLastName" value="{/CashOnDelivery/LastName}"/>
+                                <Label id="labelPhoneNumber" text="Phone Number"/>
+                                <Input id="inputPhoneNumber" value="{/CashOnDelivery/Phone Number}"/>
+                                <Label id="labelEmailAddress" text="Email address"/>
+                                <Input id="inputEmail" value="{/CashOnDelivery/Email}"/>
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="BillingStep"
+                            title="Billing address"
+                            subsequentSteps="DeliveryAddressStep, DeliveryTypeStep"
+                            activate="checkBillingStep"
+                            complete="billingAddressComplete"
+                            icon="sap-icon://sales-quote">
+                            <MessageStrip id="MessageStripRequiredSymbols" text="Enter at least 3 symbols for each required field"/>
+                            <form:SimpleForm id="SimpleFormBilling"
+                                editable="true"
+                                layout="ColumnLayout">
+                                <Label id="labelBillingDeliveryAddress" text="Delivery address is different"/>
+                                <CheckBox id="checkBoxDeliveryAddress"
+                                    selected="{/differentDeliveryAddress}"
+                                    select="setDifferentDeliveryAddress"/>
+                                <Label id="labelBillingAddress" text="Address" required="true"/>
+                                <Input id="inputBillingAddress" value="{/BillingAddress/Address}" liveChange="checkBillingStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelBillingCity" text="City" required="true"/>
+                                <Input id="inputBillingAddressCity" value="{/BillingAddress/City}" liveChange="checkBillingStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelBillingZipCode" text="Zip Code" required="true"/>
+                                <Input id="inputBillingAddressZipCode" value="{/BillingAddress/ZipCode}" liveChange="checkBillingStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelBillingCountry" text="Country" required="true"/>
+                                <Input id="inputBillingAddressCountry" value="{/BillingAddress/Country}" liveChange="checkBillingStep"
+                                        valueLiveUpdate="true"/>
+                                <Label id="labelBillingNote" text="Note" required="false"/>
+                                <TextArea id="textAreaBillingNote" rows="8" value="{/BillingAddress/Note}"/>
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="DeliveryAddressStep"
+                            title="Delivery address"
+                            nextStep="DeliveryTypeStep"
+                            icon="sap-icon://sales-quote">
+                            <form:SimpleForm id="simpleFormDeliveryAddress"
+                                editable="true"
+                                layout="ColumnLayout">
+                                <Label id="labelDeliveryAddress" text="Address"/>
+                                <Input id="inputDeliveryAddress" />
+                                <Label id="labelDeliveryCity" text="City"/>
+                                <Input id="inputDeliveryCity"/>
+                                <Label id="labelDeliveryZipCode" text="Zip Code"/>
+                                <Input id="inputDeliveryZipCode" />
+                                <Label id="labelDeliveryCountry" text="Country"/>
+                                <Input id="inputDeliveryCountry" />
+                                <Label id="labelDeliveryNote" text="Note"/>
+                                <TextArea id="textAreaDeliveryNote" rows="8"/>
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="DeliveryTypeStep"
+                            title="Delivery type"
+                            icon="sap-icon://insurance-car">
+                            <Text class="sapUiSmallMarginBottom" id="textDelivery"
+                                    text="Standard delivery will be delivered within 5 workdays. Be aware, that around high-season sales, standard delivery may take up to one additional day. Express delivery is delivered within 36 hours. A service fee of 5.49 EUR is charged for Express delivery on a workday. For a holiday delivery, the service fee is 8,00 EUR. Express delivery is only available for inland deliveries. All service fees vary for deliveries  abroad."/>
+                            <HBox id="HBoxDelivery"
+                                alignItems="Center"
+                                justifyContent="Center"
+                                width="100%">
+                                <SegmentedButton id="segmentedButton" selectedKey="{/selectedDeliveryMethod}">
+                                    <items>
+                                        <SegmentedButtonItem id="segmentedButtonItemStandardDelivery" key="Standard Delivery" text="Standard"/>
+                                        <SegmentedButtonItem id="segmentedButtonItemExpressDelivery" key="Express Delivery" text="Express"/>
+                                    </items>
+                                </SegmentedButton>
+                            </HBox>
+                        </WizardStep>
+                    </Wizard>
+                </f:content>
+                <!-- DynamicPage Footer -->
+				<f:footer>
+					<OverflowToolbar id="overFlowToolbar">
+						<Button id="buttonMessage" icon="sap-icon://message-popup"
+						        text="{messagesLength}"
+						        type="Emphasized"
+						        press="onMessageButtonPress"
+						        visible="{= !!$messagesLength}}"/>
+						<ToolbarSpacer id="toolbarSpacer"/>
+						<Button id="AcceptButton" type="Accept" text="Accept"/>
+						<Button id="RejectButton" type="Reject" text="Reject"/>
+                        <Button id="NavigationButton" text="Back" press=".onNavBack"/>
+					</OverflowToolbar>
+				</f:footer>
+            </f:DynamicPage>
+
+            <Page id="wizardBranchingReviewPage" showHeader="false">
+				<content>
+					<form:SimpleForm id="simpleFormProducts"
+						title="1. List of products"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<List items="{products2>/ProductCollection}" id="listProducts">
+							<StandardListItem id="standardListItemName"
+								title="{products2>Name}"
+								type="Active"
+								description="{products2>Description}"
+								icon="{products2>ProductPicUrl}"
+								info="{products2>Price} {products2>CurrencyCode}"
+								iconDensityAware="false"
+								iconInset="false"/>
+						</List>
+						<ObjectHeader id="objectHeaderTotal"
+							title="Total"
+							number="{/ProductsTotalPrice}"
+							numberUnit="EUR">
+							<attributes>
+								<ObjectAttribute id="objectAttributeNav"
+									press="handleNavBackToList"
+									active="true"
+									text="Edit"/>
+							</attributes>
+						</ObjectHeader>
+					</form:SimpleForm>
+					<form:SimpleForm id="simpleFormPaymentType"
+						title="2. Payment type"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<Label text="Chosen payment type" id="labelPaymentType"/>
+							<Text text="{/selectedPayment}" id="textSelectedPayment"/>
+							<Link press="handleNavBackToPaymentType" text="Edit" id="linkPaymentType"/>
+						</form:content>
+					</form:SimpleForm>
+
+					<form:SimpleForm id="simpleFormSelectedPayment"
+						visible="{= ${/selectedPayment}==='Credit Card' ? true : false}"
+						title="3. Credit Card payment"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<Label id= "labelCreditCardName" text="Name on card"/>
+							<Text id="textCreditCardName" text="{/CreditCard/Name}"/>
+							<Label id="labelCreditCardNumber" text="Card number"/>
+							<Text id="textCardNumber" text="{/CardNumber}"/>
+							<Label id="labelCardSecurityCode" text="SecurityCode"/>
+							<Text id="textCreditCardSecurityCode" text="{/CreditCard/SecurityCode}"/>
+							<Label id="labelCreditCardExpirationDate" text="Expiration date"/>
+							<Text id="textCreditCardExpire" text="{/CreditCard/Expire}"/>
+							<Link id="linkNavBackCreditCard" press="handleNavBackToCreditCard" text="Edit"/>
+						</form:content>
+					</form:SimpleForm>
+
+					<form:SimpleForm id="simpleFormSelectedPaymentBank"
+						visible="{= ${/selectedPayment}==='Bank Transfer' ? true : false}"
+						title="3. Bank Transfer"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<layout:Grid id="layoutGridBank"
+								defaultSpan="L6 M6 S10"
+								hSpacing="2">
+								<Label id="labelBankBeneficiaryName" text="Beneficiary Name" design="Bold"/>
+								<Label id="labelBankBeneficiaryNameEx" text="Singapore Hardware e-Commerce LTD"/>
+								<Label id="labelBankBeneficiaryBank" text="Beneficiary Bank" design="Bold"/>
+								<Label id="labelBankBeneficiaryBankEx" text="CITY BANK, SINGAPORE BRANCH"/>
+								<Label id="labelBankBeneficiaryNumber" text="Beneficiary Account Number" design="Bold"/>
+								<Label id="labelBankBeneficiaryNumberEx" text="06110702027218"/>
+								<Label id="labelBankBeneficiaryPhoneNumber" text="Bank Phone Number" design="Bold"/>
+								<Label id="labelBankBeneficiaryPhoneNumberEx" text="+65-6224-2622"/>
+								<Label id="labelBankBeneficiaryEmailAddress" text="Bank Email Address" design="Bold"/>
+								<Label id="labelBankBeneficiaryEmailAssressEx" text="customerservice@citybank.com"/>
+							</layout:Grid>
+						</form:content>
+					</form:SimpleForm>
+
+					<form:SimpleForm id="simpleFormCash"
+						visible="{= ${/selectedPayment}==='Cash on Delivery' ? true : false}"
+						title="3. Cash on delivery"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<Label id="labelCashFirstName" text="First Name"/>
+							<Text id="textCashFirstName" text="{/CashOnDelivery/FirstName}"/>
+							<Label id="labelCashLastName" text="Last Name"/>
+							<Text id="textCashLastName" text="{/CashOnDelivery/LastName}"/>
+							<Label id="labelCashPhone" text="Phone number"/>
+							<Text id="textCashPhone" text="{/CashOnDelivery/Phone Number}"/>
+							<Label id="labelCashEmail" text="Email address"/>
+							<Text id="textCashEmail" text="{/CashOnDelivery/Email}"/>
+							<Link id="linkCash" press="handleNavBackToCashOnDelivery" text="Edit"/>
+						</form:content>
+					</form:SimpleForm>
+
+					<form:SimpleForm id="simpleFormBillingAddress"
+						title="4. Billing Address"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<Label id="labelAddress" text="Address"/>
+							<Text id="textBillingAddress" text="{/BillingAddress/Address}"/>
+							<Label id="labelCity" text="City"/>
+							<Text id="textCity" text="{/BillingAddress/City}"/>
+							<Label id="labelZipCode" text="Zip Code"/>
+							<Text id="textZipCode" text="{/BillingAddress/ZipCode}"/>
+							<Label id="labelCountry" text="Country"/>
+							<Text id="textCountry" text="{/BillingAddress/Country}"/>
+							<Label id="labelNote" text="Note"/>
+							<Text id="textNote" text="{/BillingAddress/Note}"/>
+							<Link id="linkBillingAddress" press="handleNavBackToBillingAddress" text="Edit"/>
+						</form:content>
+					</form:SimpleForm>
+
+					<form:SimpleForm id="simpleFormDelivery"
+						title="5. Delivery type"
+						editable="false"
+						layout="ResponsiveGridLayout">
+						<form:content>
+							<Label id="labelDelivery" text="Chosen delivery type"/>
+							<Text id="textDeliveryMethod" text="{/selectedDeliveryMethod}"/>
+							<Link id="linkDelivery" press="handleNavBackToDeliveryType" text="Edit"/>
+						</form:content>
+					</form:SimpleForm>
+				</content>
+				<footer>
+					<Bar id="bar">
+						<contentRight>
+							<Button id="buttonWizard" text="Submit" press="handleWizardSubmit"/>
+							<Button id="buttonCancel" text="Cancel" press="handleWizardCancel"/>
+						</contentRight>
+					</Bar>
+				</footer>
+			</Page>
+        </pages>
+    </NavContainer>
+</mvc:View>

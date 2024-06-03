@@ -68,7 +68,8 @@
         "sap.ui.generic.app": {},
         "sap.ui.table": {},
         "sap.ushell": {},
-        "sap.ui.layout": {}
+        "sap.ui.layout": {},
+        "sap.ui.unified": {}
       }
     },
     "contentDensities": {
@@ -76,6 +77,10 @@
       "cozy": true
     },
     "models": {
+      "products2" : {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "./localService/mockdata/products.json"
+			},
       "products" : {
 				"type": "sap.ui.model.json.JSONModel",
 				"uri": "./model/Products.json"
@@ -94,6 +99,7 @@
         "dataSource": "invoiceRemote",
         "type": "sap.ui.model.json.JSONModel",
         "uri": "invoices.json"
+        
       }
     },
     "resources": {
@@ -133,6 +139,11 @@
           "pattern": "form",
           "name": "form",
           "target": "form"
+        },
+        {
+          "pattern": "test",
+          "name": "test",
+          "target": "test"
         }
       ],
       "targets": {
@@ -163,6 +174,13 @@
           "clearControlAggregation": false,
           "viewId": "Form",
           "viewName": "Form"
+        },
+        "test": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "TestPage",
+          "viewName": "TestPage"
         }
       }
     },
